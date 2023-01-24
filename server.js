@@ -5,8 +5,6 @@ import rateLimit from "express-rate-limit"; //REQUEST RATE LIMIT
 import helmet from "helmet"; //ADITIONAL SECURE MEASURES
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
-import http from "http"; // CONNECTION REQUIREMENT FOR SOCKET IO
-import { Server } from "socket.io";
 
 //? MIDDLEWARE IMPORTS
 import cors from "cors"; // TRANSMITTING HTTP HEADERS
@@ -28,17 +26,6 @@ import { addMessage } from "./controllers/userController.js";
 //! MAIN CONFIGURATION
 
 dotenv.config();
-
-const app = express();
-
-const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
 
 //? MIDDLEWARE CONFIGURATION
 //Set security HTTP headers
@@ -103,31 +90,10 @@ mongoose
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
   )
   .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(5000, () => {
       console.log(
-        "Successfully connected to database on port " + process.env.PORT
+        "Successfully connected to database on port " + 5000
       );
     });
   })
   .catch((e) => console.log(e));
-
-io.on("connection", (socket) => {
-  console.log("User connected on socket " + socket.id);
-
-  socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log("User with ID:" + socket.id + " joined room " + data);
-  });
-
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected from socket " + socket.id);
-  });
-});
-
-server.listen(3001, () => {
-  console.log("http server for SocketIO listening on port 3001");
-});

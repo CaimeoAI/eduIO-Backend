@@ -87,9 +87,6 @@ app.get('/', (req, res) => {
 })
 
 //! DATABASE CONNECTION
-console.log(
-  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-);
 
 mongoose
   .connect(

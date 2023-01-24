@@ -80,6 +80,10 @@ app.use((error, req, res, next) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.sendStatus(200)
+})
+
 //! DATABASE CONNECTION
 console.log(
   `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`

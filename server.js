@@ -27,6 +27,8 @@ import { addMessage } from "./controllers/userController.js";
 
 dotenv.config();
 
+const app = express();
+
 //? MIDDLEWARE CONFIGURATION
 //Set security HTTP headers
 app.use(helmet());

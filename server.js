@@ -94,9 +94,9 @@ mongoose
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
   )
   .then(() => {
-    app.listen(5000, () => {
+    app.listen(process.env.PORT, () => {
       console.log(
-        "Successfully connected to database on port " + 5000
+        "Successfully connected to database on port " + process.env.PORT
       );
     });
   })
